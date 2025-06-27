@@ -7,6 +7,8 @@ public class Usuario {
     }
 
     public String getNombre () {     //Este metodo nos permite acceder al nombre del usuario
+
         return nombre;
     }
 }
+    
