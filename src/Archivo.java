@@ -26,11 +26,11 @@ public class Archivo {      //Seteamos cada uno de los atributos de un archivo
     public Usuario getPropietario() {
         return propietario;
     }
-    public void setContenido() {
+    public void setContenido(String contenido) {
         this.contenido = contenido;
 
     }
-    public void setPermisos(){
+    public void setPermisos(String permisos){
         this.permisos = permisos;
     }
     public boolean puedeLeer() {
