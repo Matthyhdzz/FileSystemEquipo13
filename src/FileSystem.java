@@ -16,7 +16,6 @@ public class FileSystem {
         } else {
             System.out.println("Error: El usuario ya existe!");
         }
-        usuarios.add(usuario);
     }
 
     public Usuario buscarUsuario(String nombre) {
@@ -29,8 +28,13 @@ public class FileSystem {
     }
 
     public void crearArchivo(String nombre, String contenido, Usuario propietario, String permisos) {
+        if(buscarArchivo(nombre) != null){
+            System.out.println("Error: Ya existe un archivo con ese nombre");
+            return;
+        }
         Archivo nuevoArchivo = new Archivo(nombre, contenido, propietario, permisos);
         archivos.add(nuevoArchivo);
+        System.out.println("Archivo creado: " + nombre);
     }
 
     public Archivo buscarArchivo(String nombre) {
@@ -50,17 +54,27 @@ public class FileSystem {
         }
 
         boolean esPropietario = archivo.getPropietario().getNombre().equals(usuario.getNombre());
-        if  (esPropietario) {
+        if  (esPropietario || archivo.puedeLeer()) {
             System.out.println("Contenido: " + archivo.getContenido());
         } else {
             System.out.println("Acceso denegado.");
         }
     }
 
-    public void modificarArchivo(String nombreArchvio,Usuario usuario, String nuevoContenido){
-        Archivo archivo = buscarArchivo(nombreArchvio);
-        if (archivo != null){
+    public void modificarArchivo(String nombreArchivo,Usuario usuario, String nuevoContenido){
+        Archivo archivo = buscarArchivo(nombreArchivo);
+        if (archivo == null){
+            System.out.println("Archivo no encontrado");
+            return;
 
+        }
+        boolean esPropietario = archivo.getPropietario().getNombre().equals(usuario.getNombre());
+        if (esPropietario || archivo.puedeEscribir()){
+            archivo.setContenido(nuevoContenido);
+            System.out.println("Se modificó el archivo " + archivo.getNombre() + " correctamente");
+
+        }else{
+            System.out.println("Acceso al archivo " + archivo.getNombre() +"denegado, no tienes los permisos requeridos");
         }
     }
 
